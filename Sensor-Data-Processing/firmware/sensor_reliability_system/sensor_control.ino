@@ -98,11 +98,28 @@ void loop() {
   lcd.setCursor(0, 1);
   lcd.print(status);
 
+  /*
   // Debugging logs for Serial Monitor
   Serial.print("Raw:"); Serial.print(rawVib);
   Serial.print(" Filtered:"); Serial.print(filteredVib);
   Serial.print(" StuckCnt:"); Serial.print(stuckCounter);
   Serial.print(" OutlierCnt:"); Serial.println(outlierCounter);
+  */
 
+  // for Python analyse
+  // Represent status with numbers
+  int statusCode = 0;
+  if (status == 'NORMAL') statusCode = 0;
+  else if (status == 'WARNING') statusCode = 1;
+  else if (status == 'EMERGENCY STOP') statusCode = 2;
+  else if (status == 'SENSOR ERROR') statusCode = 3;
+
+  // Form : time(ms), unfilterd vibration, filtered vibration, temperature, status code
+  Serial.print(millis());    Serial.print(","); 
+  Serial.print(rawVib);     Serial.print(",");
+  Serial.print(filteredVib); Serial.print(",");
+  Serial.print(rawTemp);    Serial.print(",");
+  Serial.println(statusCode);
+  
   delay(100); 
 }
